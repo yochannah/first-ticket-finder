@@ -1,68 +1,121 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Issues</title>
-  </head>
-  <body>
+</head>
 
-<script>
+<body>
 
-// thanks mozilla for helping me when I'm too lazy to write basic xhr code
-//https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started
-document.addEventListener("DOMContentLoaded", function(event) {
-  var httpRequest;
-  makeRequest()
-  function makeRequest() {
-    httpRequest = new XMLHttpRequest();
+    <script>
+        //you don't want this to be the same as what I need, probably
+        var settings = {
+                tags: ["beginners", "first-timers-only", "good%20first%20bug", "help%20wanted"],
+                organisation: "YOUR ORG HERE",
+                //mummy, where do tokens come from?
+                //https://github.com/blog/1509-personal-api-tokens
+                //you only need public_repo permissions
+                access_token: "YOUR TOKEN HERE"
+            },
 
-    if (!httpRequest) {
-      alert('Giving up :( Cannot create an XMLHTTP instance');
-      return false;
-    }
-    httpRequest.onreadystatechange = alertContents;
-    httpRequest.open('GET', 'https://api.github.com/orgs/intermine/issues?access_token=5919716baee47e3cf58138b1a596d0572580b0a3&filter=all&labels=first-timers-only&state=open');
-    httpRequest.send();
-  }
+//////////// YOU PROBABLY DON'T WANT TO EDIT BELOW HERE
 
-  function alertContents() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        console.log(JSON.parse(httpRequest.responseText));
-        printResults(JSON.parse(httpRequest.responseText))
-      } else {
-        alert('There was a problem with the request.');
-      }
-    }
-  }
+            //this var is to keep track of the ids shown on the page
+            //so we don't show repeat issues if they have multiple tags
+            added = [];
 
-  function printResults(results){
-    var table = document.getElementById('issues');
-    results.map(function(result){
-      table.appendChild(formatResult(result));
-    });
-  }
+        // thanks mozilla for helping me when I'm too lazy to write basic xhr code
+        //https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started
 
-  function formatResult(result) {
-    var resultNode = document.createElement("tr");
-    resultNode.classList.add("issue");
-    //this is lazy but fast to write and sufficient for the job
-    resultNode.innerHTML = "<td class='repo-language'>" + result.repository.language + "</td>"
-    + "<td class='repo-name'> <a href='" + result.repository.html_url
-    + "'>" + result.repository.name + "</a></td>"
-    + "<td><a href='" + result.html_url +"'>"
-    + result.title + "</a> </td>";
-    return resultNode;
-  }
+        //load requests as as soon as the page is ready
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var httpRequest;
 
-});
-</script>
+            //map through all tags shown in the settings
+            //and make one API call per tag
+            settings.tags.map(function(tag) {
+                makeRequest(tag)
+            });
 
-  <table>
-    <thead><tr><td>Repo&nbsp;language</td><td>Repo&nbsp;name</td><td>Issue</td></tr></thead>
-    <tbody id="issues">
-    </tbody>
-  </table>
+            //this is where we call the api
+            function makeRequest(tag) {
+                httpRequest = new XMLHttpRequest();
+                //rudimentary error handling
+                if (!httpRequest) {
+                    handleError("Error loading tag: '" + tag + "'");
+                    return false;
+                }
+                httpRequest.onreadystatechange = handleResults;
+                httpRequest.open('GET', buildURL(tag));
+                httpRequest.send();
+            }
 
-  </body>
+            //build the url to fetch data for a given org, token, tag combo.
+            function buildURL(tag) {
+                return 'https://api.github.com/orgs/' + settings.organisation +
+                    '/issues?access_token=' + settings.access_token +
+                    '&filter=all&labels=' + tag + '&state=open';
+            }
+
+            //cool. Let's go through all result we're given and add them
+            // to the screen unless they're already present.
+            function handleResults(event) {
+                if (event.target.readyState === XMLHttpRequest.DONE) {
+                    if (event.target.status === 200) {
+                        printResults(JSON.parse(event.target.responseText))
+                    } else {
+                        handleError('There was a problem with the request.');
+                    }
+                }
+            }
+
+            // given a set of results for a tag, generate html for each one
+            // and add to our table.
+            function printResults(results) {
+                var table = document.getElementById('issues');
+                results.map(function(result) {
+                    if (added.indexOf(result.id) < 0) {
+                        table.appendChild(formatResult(result));
+                        added.push(result.id);
+                    }
+                });
+            }
+
+            //where the actual html generation mentioned above is done
+            function formatResult(result) {
+                var resultNode = document.createElement("tr");
+                resultNode.classList.add("issue");
+                //this is lazy but fast to write and sufficient for the job
+                resultNode.innerHTML = "<td class='repo-language'>" + result.repository.language + "</td>" +
+                    "<td class='repo-name'> <a href='" + result.repository.html_url +
+                    "'>" + result.repository.name + "</a></td>" +
+                    "<td><a href='" + result.html_url + "'>" +
+                    result.title + "</a> </td>";
+                return resultNode;
+            }
+
+            //nothing could ever go wrong, but just in case. :D
+            function handleError(errorText) {
+                document.getElementById("errors").innerHTML += "<br>" + errorText;
+            }
+
+        });
+    </script>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Repo&nbsp;language</td>
+                <td>Repo&nbsp;name</td>
+                <td>Issue</td>
+            </tr>
+        </thead>
+        <tbody id="issues">
+        </tbody>
+    </table>
+    <div id="errors"></div>
+
+</body>
+
 </html>
