@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Issues</title>
+  </head>
+  <body>
+
+<script>
+
+// thanks mozilla for helping me when I'm too lazy to write basic xhr code
+//https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started
+document.addEventListener("DOMContentLoaded", function(event) {
+  var httpRequest;
+  makeRequest()
+  function makeRequest() {
+    httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+      alert('Giving up :( Cannot create an XMLHTTP instance');
+      return false;
+    }
+    httpRequest.onreadystatechange = alertContents;
+    httpRequest.open('GET', 'https://api.github.com/orgs/intermine/issues?access_token=5919716baee47e3cf58138b1a596d0572580b0a3&filter=all&labels=first-timers-only&state=open');
+    httpRequest.send();
+  }
+
+  function alertContents() {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        console.log(JSON.parse(httpRequest.responseText));
+        printResults(JSON.parse(httpRequest.responseText))
+      } else {
+        alert('There was a problem with the request.');
+      }
+    }
+  }
+
+  function printResults(results){
+    var table = document.getElementById('issues');
+    results.map(function(result){
+      table.appendChild(formatResult(result));
+    });
+  }
+
+  function formatResult(result) {
+    var resultNode = document.createElement("tr");
+    resultNode.classList.add("issue");
+    //this is lazy but fast to write and sufficient for the job
+    resultNode.innerHTML = "<td class='repo-language'>" + result.repository.language + "</td>"
+    + "<td class='repo-name'> <a href='" + result.repository.html_url
+    + "'>" + result.repository.name + "</a></td>"
+    + "<td><a href='" + result.html_url +"'>"
+    + result.title + "</a> </td>";
+    return resultNode;
+  }
+
+});
+</script>
+
+  <table>
+    <thead><tr><td>Repo&nbsp;language</td><td>Repo&nbsp;name</td><td>Issue</td></tr></thead>
+    <tbody id="issues">
+    </tbody>
+  </table>
+
+  </body>
+</html>
