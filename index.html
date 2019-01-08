@@ -22,33 +22,18 @@
         //load requests as as soon as the page is ready
         document.addEventListener("DOMContentLoaded", function(event) {
             var httpRequest;
-
-            //map through all tags shown in the settings
-            //and make one API call per tag
-            settings.tags.map(function(tag) {
-                makeRequest(tag)
-            });
-
             //this is where we call the api
-            function makeRequest(tag) {
+            function makeRequest() {
                 httpRequest = new XMLHttpRequest();
                 //rudimentary error handling
                 if (!httpRequest) {
-                    handleError("Error loading tag: '" + tag + "'");
+                    handleError("Error loading issues");
                     return false;
                 }
                 httpRequest.onreadystatechange = handleResults;
-                httpRequest.open('GET', buildURL(tag));
+                httpRequest.open('GET', "/issues");
                 httpRequest.send();
             }
-
-            //build the url to fetch data for a given org, token, tag combo.
-            function buildURL(tag) {
-                return 'https://api.github.com/orgs/' + settings.organisation +
-                    '/issues?access_token=' + settings.access_token +
-                    '&filter=all&labels=' + tag + '&state=open';
-            }
-
             //cool. Let's go through all result we're given and add them
             // to the screen unless they're already present.
             function handleResults(event) {
@@ -60,7 +45,6 @@
                     }
                 }
             }
-
             // given a set of results for a tag, generate html for each one
             // and add to our table.
             function printResults(results) {
@@ -90,7 +74,7 @@
             function handleError(errorText) {
                 document.getElementById("errors").innerHTML += "<br>" + errorText;
             }
-
+            makeRequest();
         });
     </script>
 

@@ -1,5 +1,6 @@
 var request = require("request");
 
+//Fetch all issues, based on the settings configured.
 function fetchIssues(settings) {
   return outerPromise = new Promise(function(resolve, reject) {
 
@@ -19,13 +20,14 @@ function fetchIssues(settings) {
   });
 }
 
+//fetch issues for a single tag. Returns a promise that resolves when the result is ready.
 var fetchOneTagsIssues = function(tag, settings) {
   return innerPromise = new Promise(function(resolveInner, rejectInner) {
 
     var thisTag = request(buildURL(tag, settings), (error, response, body) => {
 
       if (response.statusCode == 200) {
-        console.log("-successfully fetched tag", tag, body.length);
+        console.log("--- successfully fetched tag", tag, body.length);
         resolveInner(JSON.parse(body));
       } else {
         console.log("%cresponse.statusCode", response.statusCode);
