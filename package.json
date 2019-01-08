@@ -1,0 +1,24 @@
+{
+  "name": "first-ticket-finder",
+  "version": "1.0.0",
+  "description": "Find suitable tickets to help out",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yochannah/tag-grabber.git"
+  },
+  "author": "Yo Yehudi",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/yochannah/tag-grabber/issues"
+  },
+  "homepage": "https://github.com/yochannah/tag-grabber#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  }
+}
