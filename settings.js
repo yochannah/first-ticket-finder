@@ -20,6 +20,9 @@ EXPORT TAG_GRABBER_ACCESS_TOKEN=1234356647856878
 EXPORT TAG_GRABBER_TAGS=help%20wanted,tag2,tag3 (NOTE: NO SPACE BETWEEN TAGS - use %20 if space is needed in a tag)
 EXPORT TAG_GRABBER_ORG=yourgithuborghere
 
+optional - set the port this app is served on, e.g.: 
+EXPORT PORT=3333
+
 =================================
 3. If the env vars aren't playing nice....
 
@@ -28,7 +31,7 @@ If you prefer, you _can_ set them simply by editing this file, e.g. for const to
 
 var tags = process.env.TAG_GRABBER_TAGS;
 // only try to split tags if they're defined as a variable.
-// otherwise it throws an error. 
+// otherwise it throws an error.
 if (tags) {
   tags = process.env.TAG_GRABBER_TAGS.split(",")
 }
