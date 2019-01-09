@@ -2,8 +2,10 @@ var fetchIssues = require("./fetchIssues.js");
 var settings = require("../settings.js");
 var path = require("path");
 
+
+//this is a VERY MINIMAL ROUTING APP, not designed to be a full server.
 var appRouter = function (app) {
-  
+
   //API method to serve all issues fetched from GitHub.
   app.get("/issues", function(req, res) {
     fetchIssues(settings).then(function(response){

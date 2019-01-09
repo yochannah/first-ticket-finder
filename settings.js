@@ -26,9 +26,16 @@ EXPORT TAG_GRABBER_ORG=yourgithuborghere
 If you prefer, you _can_ set them simply by editing this file, e.g. for const token = `PUT YOUR TOKEN HERE` - but don't commit it to git, please! :)
 */
 
+var tags = process.env.TAG_GRABBER_TAGS;
+// only try to split tags if they're defined as a variable.
+// otherwise it throws an error. 
+if (tags) {
+  tags = process.env.TAG_GRABBER_TAGS.split(",")
+}
+
 const token = process.env.TAG_GRABBER_ACCESS_TOKEN;
 const settings = {
-  "tags": process.env.TAG_GRABBER_TAGS.split(",") || ["beginner", "first-timers-only", "good%20first%20bug", "help%20wanted"],
+  "tags": tags || ["beginner", "first-timers-only", "good%20first%20bug", "help%20wanted"],
   "organisation": process.env.TAG_GRABBER_ORG || "intermine",
   "access_token": token
 }

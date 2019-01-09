@@ -1,17 +1,20 @@
 var request = require("request");
 
-//Fetch all issues, based on the settings configured.
+// Fetch all issues, based on the settings configured.
+// Returns a promise, which will provide an array of issues
+// if the promise is successful
 function fetchIssues(settings) {
   return outerPromise = new Promise(function(resolve, reject) {
-
     var apiCalls = [];
-
+    // One GitHub API call per tag in our settings.
+    // Each call is saved in the apiCallls array so we can
+    // Check when they're all resolved and return an answer to the user
     settings.tags.map(function(tag) {
       var thisTagsIssues = fetchOneTagsIssues(tag,settings);
       apiCalls.push(thisTagsIssues);
       });
-    //once all of the api calls to get issues are resolved, return the responses
-    // to the user
+    // once **all** of the GitHub api calls above are resolved, return the
+    // responses to the user
     Promise.all(apiCalls).then(function(values) {
       //flatten all issues into one array
       var allIssues = [].concat.apply([],values);
@@ -20,15 +23,16 @@ function fetchIssues(settings) {
   });
 }
 
-//fetch issues for a single tag. Returns a promise that resolves when the result is ready.
+// fetch issues for a single tag. Returns a promise that resolves when
+// the result is ready.
 var fetchOneTagsIssues = function(tag, settings) {
   return innerPromise = new Promise(function(resolveInner, rejectInner) {
-
     var thisTag = request(buildURL(tag, settings), (error, response, body) => {
-
+      //return successful result body, OR
       if (response.statusCode == 200) {
         console.log("--- successfully fetched tag", tag, body.length);
         resolveInner(JSON.parse(body));
+      //let people know if something went wrong.
       } else {
         console.log("%cresponse.statusCode", response.statusCode);
         rejectInner("Error fetching issues for tag " + tag);
@@ -38,7 +42,9 @@ var fetchOneTagsIssues = function(tag, settings) {
 }
 
 
-//build the url to fetch data for a given org, token, tag combo.
+// build the url to fetch data for a given org, token, tag combo.
+// docs for the GitHubb API: https://developer.github.com/v3/
+// note we're also adding HTTP headers, particularly auth.
 function buildURL(tag, settings) {
   var path = 'orgs/' + settings.organisation +
     '/issues' +
@@ -53,18 +59,6 @@ function buildURL(tag, settings) {
       "User-Agent": settings.organisation
     }
   };
-}
-
-//cool. Let's go through all result we're given and add them
-// to the screen unless they're already present.
-function handleResults(event) {
-  if (event.target.readyState === XMLHttpRequest.DONE) {
-    if (event.target.status === 200) {
-      printResults(JSON.parse(event.target.responseText))
-    } else {
-      handleError('There was a problem with the request.');
-    }
-  }
 }
 
 module.exports = fetchIssues
