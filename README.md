@@ -40,3 +40,9 @@ If you'd like to show these issues in a single snazzy UI component embedded some
 </script>
 
 ```
+
+### Developing
+
+Requirements: Node, npm. Run npm install to initialise the repo and install the few dependencies.
+
+Building the less into css: install lessc, then run `lessc style.less style.css`
