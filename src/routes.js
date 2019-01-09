@@ -18,6 +18,16 @@ var appRouter = function (app) {
     res.sendFile(path.join(__dirname + '/../index.html'));
   });
 
+  //Simple static server to serve the UI content.
+  app.get("/style.css", function(req, res) {
+    res.sendFile(path.join(__dirname + '/../style.css'));
+  });
+
+  //Simple static server to serve the UI content.
+  app.get("/src/ui.js", function(req, res) {
+    res.sendFile(path.join(__dirname + '/ui.js'));
+  });
+
 }
 
 module.exports = appRouter;

@@ -1,0 +1,103 @@
+.tagGrabber {
+  font-family:sans-serif;
+  min-width:400px;
+  margin:auto;
+  thead td {
+    border-bottom: solid 2px grey;
+  }
+
+  table {
+    tr:nth-child(even) {
+      background-color: #ededed;
+    }
+    min-height: 300px;
+  }
+
+  .logoloader {
+    width: 5em;
+    margin: 0.5em;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.3em;
+    grid-auto-rows: minmax(2em, auto);
+
+    > div {
+      border-radius: 2px;
+      width: 3em;
+      height: 2em;
+      display: block;
+    }
+  }
+  @im-green: rgb(190, 215, 59);
+  @im-grey: #373533;
+
+  .left {
+    background-color: @im-green;
+
+    &.top {
+      background-color: @im-grey;
+    }
+  }
+
+  .right {
+    background-color: @im-grey;
+
+    &.top {
+      background-color: @im-green;
+    }
+  }
+  @keyframes for-a {
+    0% {
+      padding-top: 0.5em;
+      margin: 0.25em;
+      padding-left: 0;
+      grid-gap: 0.5em;
+    }
+
+    50% {
+      padding-top: 0.25em;
+      padding-left: 0.5em;
+      grid-gap: 0.25em;
+    }
+
+    100% {
+      padding-top: 0.5em;
+      margin: 0.25em;
+      grid-gap: 0.5em;
+    }
+  }
+  @keyframes fade {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.4;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .logoloader {
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-name: for-a;
+    animation-iteration-count: infinite;
+  }
+
+  .right {
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-name: fade;
+    animation-iteration-count: infinite;
+  }
+
+  .left {
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-name: fade;
+    animation-iteration-count: infinite;
+  }
+}
