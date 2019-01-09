@@ -4,6 +4,7 @@
   "description": "Find suitable tickets to help out",
   "main": "src/app.js",
   "scripts": {
+    "start" : "src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
