@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/first-ticket-finder.svg)](https://badge.fury.io/js/first-ticket-finder)
+
 # Issue finder
 
 This allows an organisation using GitHub to collate "help wanted" style issues easily. It comprises of two parts - a server to fetch the issues, and a UI component to output the issues in a table.

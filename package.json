@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yochannah/tag-grabber.git"
+    "url": "git+https://github.com/yochannah/first-ticket-finder.git"
   },
   "author": "Yo Yehudi",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/yochannah/tag-grabber/issues"
+    "url": "https://github.com/yochannah/first-ticket-finder/issues"
   },
-  "homepage": "https://github.com/yochannah/tag-grabber#readme",
+  "homepage": "https://github.com/yochannah/first-ticket-finder#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
