@@ -43,6 +43,16 @@ var added = [];
     });
   }
 
+  // iterate over labels and make little tags for them.
+  function labelsToHTML(labels, repo) {
+    var response = "";
+    labels.map(function(label){
+      console.log("%clabels","color:turquoise;font-weight:bold;",label);
+      response += "<span class='issue-label' style='border-color:#" + label.color + "'><a href='" + repo + "/labels/" + encodeURIComponent(label.name) + "'>" + label.name + "</a></span>"
+    });
+    return response;
+  }
+
   //where the actual html generation mentioned above is done
   function formatResult(result) {
     var resultNode = document.createElement("tr");
@@ -52,7 +62,8 @@ var added = [];
       "<td class='repo-name'> <a href='" + result.repository.html_url +
       "'>" + result.repository.name + "</a></td>" +
       "<td><a href='" + result.html_url + "'>" +
-      result.title + "</a> </td>";
+      result.title + "</a> </td>" +
+      "<td ><div class='labels'>" + labelsToHTML(result.labels, result.repository.html_url) + "</div></td>";
     return resultNode;
   }
 
@@ -68,6 +79,7 @@ var template = '  <table class="tagGrabber">' +
   '<td>Repo&nbsp;language</td>' +
   '<td>Repo&nbsp;name</td>' +
   '<td>Issue</td>' +
+  '<td>Labels</td>' +
   '</tr>' +
   '</thead>' +
   '<tbody id="issues">' +

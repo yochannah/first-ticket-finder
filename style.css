@@ -6,11 +6,28 @@
 .tagGrabber thead td {
   border-bottom: solid 2px grey;
 }
-.tagGrabber table {
+.tagGrabber tbody {
   min-height: 300px;
 }
-.tagGrabber table tr:nth-child(even) {
-  background-color: #ededed;
+.tagGrabber tbody tr:nth-of-type(even) {
+  background-color: #e7e7e7;
+}
+.tagGrabber .labels {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tagGrabber .issue-label {
+  border-radius: 2px;
+  margin: 2px;
+  padding: 2px 4px;
+  border-left: solid 3px #333;
+  background-color: #eee;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.tagGrabber .issue-label a {
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  color: #000;
 }
 .tagGrabber .logoloader {
   width: 5em;

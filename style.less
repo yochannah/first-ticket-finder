@@ -1,16 +1,37 @@
 .tagGrabber {
-  font-family:sans-serif;
-  min-width:400px;
-  margin:auto;
+  font-family: sans-serif;
+  min-width: 400px;
+  margin: auto;
+
   thead td {
     border-bottom: solid 2px grey;
   }
 
-  table {
-    tr:nth-child(even) {
-      background-color: #ededed;
+  tbody {
+    tr:nth-of-type(even) {
+      background-color: #e7e7e7;
     }
     min-height: 300px;
+  }
+
+  .labels {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .issue-label {
+    border-radius: 2px;
+    margin: 2px;
+    padding: 2px 4px;
+    border-left: solid 3px #333;
+    background-color: #eee;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+
+    a {
+      text-shadow: 1px 1px 1px rgba(255,255,255,0.1);
+      text-decoration: none;
+      color: #000;
+    }
   }
 
   .logoloader {
