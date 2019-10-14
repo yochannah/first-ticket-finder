@@ -38,7 +38,7 @@ if (tags) {
 
 const token = process.env.TAG_GRABBER_ACCESS_TOKEN;
 const settings = {
-  "tags": tags || ["beginner", "first-timers-only", "good%20first%20bug", "help%20wanted"],
+  "tags": tags || ["beginner", "first-timers-only", "good%20first%20bug", "help%20wanted", "hacktoberfest"],
   "organisation": process.env.TAG_GRABBER_ORG || "intermine",
   "access_token": token
 }
