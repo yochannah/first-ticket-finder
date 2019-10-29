@@ -1,4 +1,5 @@
 var fetchIssues = require("./fetchIssues.js");
+var fetchPrs = require("./fetchPrs.js");
 var settings = require("../settings.js");
 var path = require("path");
 var cors = require("cors");
@@ -13,6 +14,14 @@ var appRouter = function (app) {
       res.status(200).send(response);
     });
   });
+
+
+    //API method to serve all issues fetched from GitHub.
+    app.get("/prs", cors(), function(req, res) {
+      fetchPrs(settings).then(function(response){
+        res.status(200).send(response);
+      });
+    });
 
   //Simple static server to serve the UI content.
   app.get("/", function(req, res) {
